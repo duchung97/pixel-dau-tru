@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Pixel Đấu Trụ">
 </head>
 <body>
 <title>Pixel Đấu Trụ</title>
@@ -95,6 +96,7 @@ button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 #banner{left:50%;top:24%;transform:translate(-50%,-50%);font-family:var(--display);font-size:56px;text-shadow:0 4px 0 #000,0 0 10px #000;white-space:nowrap;text-align:center}
 #hint{left:calc(10px + env(safe-area-inset-left,0px));bottom:calc(10px + env(safe-area-inset-bottom,0px));font-size:12px;color:var(--muted);background:var(--panel);padding:6px 10px;max-width:280px;line-height:1.5}
 #hint b{color:var(--text)}
+#fsHint{position:fixed;inset:0;z-index:60;display:grid;place-items:center;background:rgba(0,0,0,.6);padding:16px}#fsHint>div{max-width:420px;background:var(--panel-solid);color:var(--text);border:3px solid #000;border-radius:6px;padding:16px 18px;text-align:center}#fsHint h3{font-family:var(--display);margin:0 0 8px}#fsHint p{margin:0 0 12px;line-height:1.45}
 #topbtns{top:calc(10px + env(safe-area-inset-top,0px));left:calc(10px + env(safe-area-inset-left,0px));display:flex;gap:6px;pointer-events:auto}
 #topbtns button{font-family:var(--display);font-size:20px;padding:4px 10px 6px;background:var(--panel-solid);color:var(--text);border:3px solid #000;border-radius:4px}
 #planeWarn{left:50%;top:calc(64px + env(safe-area-inset-top,0px));transform:translateX(-50%);font-weight:800;font-size:14px;padding:5px 12px;background:#5a3b00;color:#ffe9a6;border:3px solid #000;border-radius:4px}
@@ -176,12 +178,13 @@ table.res tr.r td:first-child{border-left:4px solid var(--red)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
+<div id="fsHint" hidden><div><h3>TOÀN MÀN HÌNH TRÊN iPHONE</h3><p>Safari trên iPhone không cho trang web tự bật toàn màn hình. Hãy bấm nút <b>Chia sẻ</b> (ô vuông có mũi tên) rồi chọn <b>Thêm vào MH chính</b>. Mở game từ biểu tượng ngoài màn hình chính sẽ chạy toàn màn hình.</p><button class="btn" id="fsHintOk" type="button">ĐÃ HIỂU</button></div></div>
 <div id="rotate" role="alert"><div><div class="ph"></div><h2>XOAY NGANG MÀN HÌNH</h2><p>Pixel Đấu Trụ chơi ở chế độ màn hình ngang. Hãy xoay điện thoại để tiếp tục.</p></div></div>
 <div id="game">
   <canvas id="c"></canvas>
   <div id="labels"></div>
   <div id="hud" hidden>
-    <div id="topbtns"><button id="btnPause" type="button" aria-label="Tạm dừng">II</button><button id="btnMute" type="button" aria-label="Tắt tiếng">♪</button><button id="btnBoard" type="button" aria-label="Bảng điểm">≡</button></div>
+    <div id="topbtns"><button id="btnPause" type="button" aria-label="Tạm dừng">II</button><button id="btnMute" type="button" aria-label="Tắt tiếng">♪</button><button id="btnBoard" type="button" aria-label="Bảng điểm">≡</button><button id="btnFs" class="fsbtn" type="button" aria-label="Toàn màn hình">⛶</button></div>
     <div id="score"><div class="s b"><small>TRỤ</small><span id="tB">0</span></div><div class="mid" id="timer">6:00</div><div class="s r"><span id="tR">0</span><small>TRỤ</small></div></div>
     <div id="topright"><canvas id="mini" class="px" width="170" height="170"></canvas><div id="stats" class="px"><span id="clock">06:00</span><span class="tb" id="kB">0</span><span>:</span><span class="tr" id="kR">0</span><span title="Hạ / chết của bạn" id="kd">0/0</span></div></div>
     <div id="feed"></div>
@@ -229,7 +232,7 @@ table.res tr.r td:first-child{border-left:4px solid var(--red)}
       </div>
       <div class="row" id="onlineRow"><span class="lbl">Chơi online</span><button class="btn ghost" id="btnCreate" type="button" style="font-size:22px">TẠO PHÒNG</button><input id="codeIn" maxlength="40" placeholder="Mã phòng" autocomplete="off" style="font:700 16px var(--body);text-transform:uppercase;padding:8px 10px;background:#0f1630;color:var(--text);border:3px solid var(--line);border-radius:4px;width:140px"><button class="btn ghost" id="btnJoin" type="button" style="font-size:22px">VÀO PHÒNG</button></div>
       <p class="sub" id="onlineMsg" role="status" style="margin:0;color:var(--gold)"></p>
-      <div class="row" style="justify-content:flex-end"><button class="btn" id="btnLobby" type="button">CHƠI VỚI BOT ▶</button></div>
+      <div class="row" style="justify-content:flex-end"><button class="btn ghost fsbtn" id="btnFsMenu" type="button">⛶ TOÀN MÀN HÌNH</button><button class="btn" id="btnLobby" type="button">CHƠI VỚI BOT ▶</button></div>
     </div>
   </div>
 
@@ -1537,6 +1540,23 @@ function togglePause(){
 function toggleMute(){muted=!muted;$('#btnMute').textContent=muted?'×':'♪';}
 $('#btnPause').addEventListener('click',togglePause);
 $('#btnMute').addEventListener('click',()=>{initAudio();toggleMute();});
+function fsEl(){return document.fullscreenElement||document.webkitFullscreenElement||null;}
+function fsSupported(){const e=document.documentElement;return !!(e.requestFullscreen||e.webkitRequestFullscreen);}
+function isStandalone(){return (window.matchMedia&&matchMedia('(display-mode: standalone)').matches)||navigator.standalone===true;}
+function toggleFullscreen(){
+  if(fsEl()){try{(document.exitFullscreen||document.webkitExitFullscreen).call(document);}catch(_){}return;}
+  if(!fsSupported()){if(!isStandalone())$('#fsHint').hidden=false;return;}
+  const e=document.documentElement;
+  try{const p=e.requestFullscreen?e.requestFullscreen({navigationUI:'hide'}):e.webkitRequestFullscreen();
+    if(p&&p.then)p.then(()=>{try{isTouch&&screen.orientation&&screen.orientation.lock&&screen.orientation.lock('landscape').catch(()=>{});}catch(_){}}).catch(()=>{});}catch(_){}
+}
+function updateFsBtns(){const on=!!fsEl();document.querySelectorAll('.fsbtn').forEach(b=>{b.textContent=b.id==='btnFs'?(on?'✕':'⛶'):(on?'✕ THOÁT TOÀN MÀN HÌNH':'⛶ TOÀN MÀN HÌNH');b.setAttribute('aria-label',on?'Thoát toàn màn hình':'Toàn màn hình');});
+  if(isStandalone())document.querySelectorAll('.fsbtn').forEach(b=>b.hidden=true);}
+document.addEventListener('fullscreenchange',updateFsBtns);document.addEventListener('webkitfullscreenchange',updateFsBtns);
+$('#btnFs').addEventListener('click',e=>{e.stopPropagation();toggleFullscreen();});
+$('#btnFsMenu').addEventListener('click',toggleFullscreen);
+$('#fsHintOk').addEventListener('click',()=>{$('#fsHint').hidden=true;});
+updateFsBtns();
 $('#btnBoard').addEventListener('click',()=>{const b=$('#board');b.hidden=!b.hidden;if(!b.hidden)renderBoard();});
 $('#btnResume').addEventListener('click',togglePause);
 $('#btnQuit').addEventListener('click',toMenu);
@@ -1930,6 +1950,3 @@ requestAnimationFrame(frame);
 window.__pdt={get game(){return game;},get units(){return units;},get towers(){return towers;},get crates(){return crates;},get net(){return net;},launchPlane:()=>launchPlane(),openLobby,startMatch};
 })();
 </script>
-
-</body>
-</html>
