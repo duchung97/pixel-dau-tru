@@ -175,6 +175,31 @@ table.res tr.r td:first-child{border-left:4px solid var(--red)}
 #rotate p{margin:0;color:var(--muted);font-size:14px;max-width:30ch}
 @keyframes rot{0%,30%{transform:rotate(0)}60%,100%{transform:rotate(-90deg)}}
 @media (orientation:portrait){body.touch #rotate{display:grid}}
+/* phones: keep the game away from the camera notch and rounded corners */
+body.touch{background:#000}
+body.touch #game{top:max(6px,env(safe-area-inset-top,0px));bottom:max(6px,env(safe-area-inset-bottom,0px));left:max(34px,env(safe-area-inset-left,0px));right:max(34px,env(safe-area-inset-right,0px));border-radius:14px}
+body.touch #mini{width:84px;height:84px}
+body.touch #stats{display:none}
+body.touch #skills{transform:scale(.56);transform-origin:right bottom;right:8px;bottom:8px}
+body.touch #joy{width:100px;height:100px;left:12px;bottom:12px}
+body.touch #knob{width:42px;height:42px;margin:-21px 0 0 -21px}
+body.touch #topright{top:6px;right:6px}
+body.touch #topbtns{top:6px;left:6px;gap:4px}
+body.touch #topbtns button{font-size:15px;padding:2px 7px 3px;border-width:2px}
+body.touch #score{top:6px}
+body.touch #score .s,body.touch #score .mid{font-size:16px;padding:1px 7px 3px}
+body.touch #score small{font-size:12px}
+body.touch #feed{top:40px;left:6px}
+body.touch #feed div{font-size:10px;padding:2px 6px}
+body.touch #vitals{bottom:6px;gap:4px}
+body.touch #hpbar{width:34vw;height:14px;border-width:2px}
+body.touch #hpbar span{font-size:13px;line-height:11px}
+body.touch .buff{font-size:10px;padding:2px 5px}
+body.touch #banner{font-size:24px}
+body.touch #dead h2{font-size:30px}
+body.touch #planeWarn{top:38px;font-size:11px}
+body.touch .lab b{font-size:10px}
+body.touch .lab .bar{width:40px;height:6px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
@@ -331,8 +356,10 @@ const hemi=new THREE.HemisphereLight(0xdff3ff,0x5a7a3a,0.75);scene.add(hemi);
 const sun=new THREE.DirectionalLight(0xfff2d6,0.85);
 sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);sun.shadow.bias=-0.0008;
 scene.add(sun);scene.add(sun.target);
-function resize(){const w=window.innerWidth,h=window.innerHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
-window.addEventListener('resize',resize);resize();
+var CAM=null;
+function gameBox(){return canvas.getBoundingClientRect();}
+function resize(){const r=gameBox();const w=Math.max(1,Math.round(r.width))||window.innerWidth,h=Math.max(1,Math.round(r.height))||window.innerHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
+window.addEventListener('resize',resize);resize();try{new ResizeObserver(()=>resize()).observe(canvas);}catch(_){}
 
 // ---------------- pixel textures ----------------
 const texCache=new Map();
@@ -954,6 +981,7 @@ window.addEventListener('pointerup',e=>{
 function setupTouch(){
   if(isTouch)return;
   isTouch=true;$('#joy').hidden=false;$('#hint').hidden=true;document.body.classList.add('touch');
+  if(CAM){CAM.dist=21.5;CAM.height=24;}setTimeout(resize,0);
 }
 (function(){
   const J=$('#joy'),K=$('#knob');let ox=0,oy=0,rad=60;
@@ -961,7 +989,7 @@ function setupTouch(){
   const start=(e,cx,cy,el)=>{
     initAudio();setupTouch();joy.id=e.pointerId;try{el.setPointerCapture(e.pointerId);}catch(_){}
     const r=J.getBoundingClientRect();rad=r.width/2;ox=cx;oy=cy;
-    J.style.left=(cx-rad)+'px';J.style.top=(cy-rad)+'px';J.style.bottom='auto';J.classList.add('on');
+    const hb=$('#hud').getBoundingClientRect();J.style.left=(cx-hb.left-rad)+'px';J.style.top=(cy-hb.top-rad)+'px';J.style.bottom='auto';J.classList.add('on');
     upd(e);
   };
   const move=e=>{if(e.pointerId===joy.id)upd(e);};
@@ -969,7 +997,7 @@ function setupTouch(){
   J.addEventListener('pointerdown',e=>{e.preventDefault();const r=J.getBoundingClientRect();start(e,r.left+r.width/2,r.top+r.height/2,J);});
   J.addEventListener('pointermove',move);J.addEventListener('pointerup',end);J.addEventListener('pointercancel',end);
   // touch anywhere on the left half of the screen to move
-  canvas.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse')return;setupTouch();if(joy.id===null&&e.clientX<window.innerWidth*0.5&&game&&!game.over)start(e,e.clientX,e.clientY,canvas);});
+  canvas.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse')return;setupTouch();if(joy.id===null&&e.clientX<gameBox().left+gameBox().width*0.5&&game&&!game.over)start(e,e.clientX,e.clientY,canvas);});
   canvas.addEventListener('pointermove',move);canvas.addEventListener('pointerup',end);canvas.addEventListener('pointercancel',end);
 })();
 function bindSkillButton(el,kind){
@@ -1020,12 +1048,12 @@ function drawIcon(cv,kind){
 drawIcon($('#skF canvas'),'fire');drawIcon($('#sk1 canvas'),'dash');drawIcon($('#sk2 canvas'),'dbl');drawIcon($('#sk3 canvas'),'gren');
 
 // ---------------- camera ----------------
-let camYaw=Math.PI;const CAM={dist:18,height:20};
+let camYaw=Math.PI;CAM={dist:18,height:20};if(isTouch){CAM.dist=21.5;CAM.height=24;}
 const ray=new THREE.Raycaster();const groundPlane=new THREE.Plane(new THREE.Vector3(0,1,0),-1.35);const floorPlane=new THREE.Plane(new THREE.Vector3(0,1,0),0);
 const tmpV=new THREE.Vector3(),tmpV2=new THREE.Vector2();
 function mouseWorld(plane){
   if(!mouse.has)return null;
-  tmpV2.set(mouse.x/window.innerWidth*2-1,-(mouse.y/window.innerHeight)*2+1);
+  {const r=gameBox();tmpV2.set((mouse.x-r.left)/r.width*2-1,-((mouse.y-r.top)/r.height)*2+1);}
   ray.setFromCamera(tmpV2,camera);
   const hit=ray.ray.intersectPlane(plane,tmpV);
   return hit?{x:hit.x,z:hit.z}:null;
@@ -1354,7 +1382,7 @@ function updateHUD(dt){
   hudAcc+=dt;
   const p=player;
   // labels
-  const w=window.innerWidth,h=window.innerHeight;
+  const gb=gameBox(),w=gb.width,h=gb.height;
   for(const u of units){
     const show=u.alive&&!u.isPlayer||(u.isPlayer&&u.alive);
     if(!show){u.lab.style.display='none';continue;}
