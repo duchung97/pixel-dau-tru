@@ -251,7 +251,7 @@ body.touch .lab .bar{width:40px;height:6px}
           <kbd>Chuột</kbd><span>Ngắm theo con trỏ</span>
           <kbd>Chuột trái</kbd><span>Bắn (giữ để bắn liên tục)</span>
           <kbd>Q / Shift</kbd><span>Chiêu 1: Lướt một đoạn dài</span>
-          <kbd>E</kbd><span>Chiêu 2: Bắn 2 viên, nhanh hơn 20%</span>
+          <kbd>E</kbd><span>Chiêu 2: Bắn 2 viên liên tiếp</span>
           <kbd>R / Chuột phải</kbd><span>Chiêu 3: Lựu đạn làm chậm 70% (không gây sát thương)</span>
           <kbd>Tab</kbd><span>Bảng điểm</span>
         </div></div>
@@ -320,7 +320,7 @@ const AUTO_RANGE=15;
 const BASE={hp:100,speed:5.57,fireInt:0.475,bulletSpeed:9.6,dmg:14,range:19};
 const SK={
   dash:{cd:5,dist:9,time:0.2},
-  dbl:{cd:6,gap:0.17,mult:1.2,dmg:14},
+  dbl:{cd:6,gap:0.17,mult:1,dmg:14},
   gren:{cd:10,range:17,radius:7.8,slow:0.7,slowTime:3.2,dmg:0}
 };
 const TOWER={hp:448,radius:13,regenDelay:5,regen:18,col:1.8};
@@ -786,11 +786,11 @@ function r2(v){return Math.round(v*100)/100;}
 function num(v,d=0){v=+v;return Number.isFinite(v)?v:d;}
 function spawnBullet(owner,team,ox,oz,yaw,skill){
   const f=fwd(yaw);const speed=BASE.bulletSpeed*(skill?SK.dbl.mult:1);
-  const mesh=new THREE.Mesh(skill?shared.bigBulletGeo:shared.bulletGeo,basic(skill?0xfff200:TEAM[team].shot));
+  const mesh=new THREE.Mesh(shared.bulletGeo,basic(TEAM[team].shot));
   {const edge=new THREE.Mesh(mesh.geometry,shared.bulletEdge);edge.scale.setScalar(1.35);mesh.add(edge);}
   mesh.position.set(ox,1.35,oz);mesh.rotation.y=yaw;scene.add(mesh);
   bullets.push({id:++bulletId,x:ox,z:oz,dx:f.x,dz:f.z,speed,team,owner,dmg:skill?SK.dbl.dmg:BASE.dmg,life:BASE.range/speed,mesh,skill,trail:0});
-  burst(ox,1.35,oz,skill?0xfff07a:0xffffff,3,3,0.12,0.15,0);
+  burst(ox,1.35,oz,0xffffff,3,3,0.12,0.15,0);
   sfx.shot({x:ox,z:oz},skill);
   if(owner&&owner.m)owner.m.armR.rotation.x=-Math.PI/2-0.25;
 }
@@ -1320,7 +1320,7 @@ function updateBullets(dt){
     }
     if(dead){scene.remove(b.mesh);bullets.splice(i,1);continue;}
     b.mesh.position.set(b.x,1.35,b.z);
-    b.trail-=dt;if(b.trail<=0){b.trail=0.035;burst(b.x,1.35,b.z,b.skill?0xfff07a:TEAM[b.team].c,1,0.3,0.12,0.25,0);}
+    b.trail-=dt;if(b.trail<=0){b.trail=0.035;burst(b.x,1.35,b.z,TEAM[b.team].c,1,0.3,0.12,0.25,0);}
   }
 }
 function updateGrenades(dt){
