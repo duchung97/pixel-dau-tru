@@ -77,15 +77,16 @@ button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .buff{font-size:12px;font-weight:800;padding:3px 7px;border:2px solid #000;border-radius:3px;background:#17325e;color:#cfe4ff}
 .buff.drop{background:#5a3b00;color:#ffe9a6}
 .buff.bad{background:#173a5e;color:#9de3ff}
-#skills{right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));width:290px;height:250px;pointer-events:none;transform:scale(1.3);transform-origin:right bottom}
+#skills{right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));width:290px;height:260px;pointer-events:none;transform:scale(1.3);transform-origin:right bottom}
 .sk{position:absolute;width:74px;height:74px;border-radius:50%;border:4px solid #fff;background:#1f2a4d;box-shadow:0 4px 0 rgba(0,0,0,.5);overflow:hidden;pointer-events:auto;touch-action:none;display:grid;place-items:center;color:#fff;padding:0}
 .sk canvas{width:100%;height:100%;image-rendering:pixelated;display:block}
 .sk .cd{position:absolute;inset:0;background:conic-gradient(rgba(5,8,18,.78) var(--p,0%),transparent 0);display:grid;place-items:center;font-family:var(--display);font-size:30px;text-shadow:0 2px 0 #000}
 .sk .key{position:absolute;right:6px;bottom:2px;font-family:var(--display);font-size:17px;text-shadow:0 2px 0 #000}
 .sk.fire{width:118px;height:118px;right:0;bottom:0;background:#7a1c12;border-color:#ffd23f}
-#sk1{right:132px;bottom:6px}
-#sk2{right:118px;bottom:100px}
-#sk3{right:30px;bottom:136px}
+#sk1,#sk2,#sk3{width:89px;height:89px}
+#sk1{right:157px;bottom:0}
+#sk2{right:140px;bottom:116px}
+#sk3{right:25px;bottom:163px}
 .sk.flash{animation:nope .3s}
 @keyframes nope{50%{border-color:#ff3b30}}
 #joy{left:calc(28px + env(safe-area-inset-left,0px));bottom:calc(28px + env(safe-area-inset-bottom,0px));width:180px;height:180px;border-radius:50%;border:4px solid rgba(255,255,255,.55);background:rgba(10,14,28,.25);pointer-events:auto;touch-action:none}
@@ -316,13 +317,13 @@ function rnd(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|s
 
 // ---------------- tuning ----------------
 const AUTO_RANGE=15;
-const BASE={hp:100,speed:5.06,fireInt:0.475,bulletSpeed:9.6,dmg:14,range:19};
+const BASE={hp:100,speed:5.57,fireInt:0.475,bulletSpeed:9.6,dmg:14,range:19};
 const SK={
   dash:{cd:5,dist:9,time:0.2},
-  dbl:{cd:6,gap:0.17,mult:1.2,dmg:20},
+  dbl:{cd:6,gap:0.17,mult:1.2,dmg:14},
   gren:{cd:10,range:17,radius:7.8,slow:0.7,slowTime:3.2,dmg:0}
 };
-const TOWER={hp:640,radius:13,regenDelay:5,regen:18,col:1.8};
+const TOWER={hp:448,radius:13,regenDelay:5,regen:18,col:1.8};
 const BUFF={fire:1.35,hp:1.25,regen:6,speed:1.25,cd:1.4};
 const RESPAWN=10, MATCH=360;
 const DROPS={
