@@ -56,7 +56,7 @@ button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 #hud{position:absolute;inset:0;pointer-events:none}
 #hud > *{position:absolute}
 #topright{top:calc(10px + env(safe-area-inset-top,0px));right:calc(10px + env(safe-area-inset-right,0px));display:flex;flex-direction:column;align-items:center;gap:6px}
-#mini{width:170px;height:170px;display:block;image-rendering:pixelated}
+#mini{width:204px;height:204px;display:block;image-rendering:pixelated;opacity:.7}
 #stats{display:flex;gap:12px;align-items:center;font-family:var(--display);font-size:24px;padding:2px 10px 4px}
 #stats .tb{color:var(--blue)} #stats .tr{color:var(--red)}
 #score{top:calc(10px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);display:flex;align-items:stretch;font-family:var(--display)}
@@ -77,7 +77,7 @@ button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .buff{font-size:12px;font-weight:800;padding:3px 7px;border:2px solid #000;border-radius:3px;background:#17325e;color:#cfe4ff}
 .buff.drop{background:#5a3b00;color:#ffe9a6}
 .buff.bad{background:#173a5e;color:#9de3ff}
-#skills{right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));width:290px;height:250px;pointer-events:none}
+#skills{right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));width:290px;height:250px;pointer-events:none;transform:scale(1.3);transform-origin:right bottom}
 .sk{position:absolute;width:74px;height:74px;border-radius:50%;border:4px solid #fff;background:#1f2a4d;box-shadow:0 4px 0 rgba(0,0,0,.5);overflow:hidden;pointer-events:auto;touch-action:none;display:grid;place-items:center;color:#fff;padding:0}
 .sk canvas{width:100%;height:100%;image-rendering:pixelated;display:block}
 .sk .cd{position:absolute;inset:0;background:conic-gradient(rgba(5,8,18,.78) var(--p,0%),transparent 0);display:grid;place-items:center;font-family:var(--display);font-size:30px;text-shadow:0 2px 0 #000}
@@ -88,8 +88,8 @@ button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 #sk3{right:30px;bottom:136px}
 .sk.flash{animation:nope .3s}
 @keyframes nope{50%{border-color:#ff3b30}}
-#joy{left:calc(28px + env(safe-area-inset-left,0px));bottom:calc(28px + env(safe-area-inset-bottom,0px));width:150px;height:150px;border-radius:50%;border:4px solid rgba(255,255,255,.55);background:rgba(10,14,28,.25);pointer-events:auto;touch-action:none}
-#knob{position:absolute;left:50%;top:50%;width:62px;height:62px;margin:-31px 0 0 -31px;border-radius:50%;background:rgba(255,255,255,.75);border:3px solid #000}
+#joy{left:calc(28px + env(safe-area-inset-left,0px));bottom:calc(28px + env(safe-area-inset-bottom,0px));width:180px;height:180px;border-radius:50%;border:4px solid rgba(255,255,255,.55);background:rgba(10,14,28,.25);pointer-events:auto;touch-action:none}
+#knob{position:absolute;left:50%;top:50%;width:74px;height:74px;margin:-37px 0 0 -37px;border-radius:50%;background:rgba(255,255,255,.75);border:3px solid #000}
 #dead{left:50%;top:38%;transform:translate(-50%,-50%);text-align:center;padding:16px 26px}
 #dead h2{margin:0;font-family:var(--display);font-size:44px;font-weight:400;color:var(--red)}
 #dead p{margin:4px 0 0;font-size:15px;color:var(--muted)}
@@ -140,11 +140,11 @@ table.res tr.r td:first-child{border-left:4px solid var(--red)}
 #joy.on{border-color:rgba(255,255,255,.85);background:rgba(10,14,28,.35)}
 #knob{pointer-events:none}
 @media (max-width:700px){
-  #mini{width:104px;height:104px}
+  #mini{width:125px;height:125px}
   #stats{font-size:18px;gap:8px;padding:0 6px 2px}
-  #skills{transform:scale(.78);transform-origin:right bottom}
-  #joy{width:124px;height:124px;left:calc(18px + env(safe-area-inset-left,0px));bottom:calc(20px + env(safe-area-inset-bottom,0px))}
-  #knob{width:52px;height:52px;margin:-26px 0 0 -26px}
+  #skills{transform:scale(1.01);transform-origin:right bottom}
+  #joy{width:149px;height:149px;left:calc(18px + env(safe-area-inset-left,0px));bottom:calc(20px + env(safe-area-inset-bottom,0px))}
+  #knob{width:62px;height:62px;margin:-31px 0 0 -31px}
   #hint{display:none}
   #score{left:calc(52px + env(safe-area-inset-left,0px));transform:none}
   #score .s,#score .mid{font-size:19px;padding:2px 8px 4px;min-width:0}
@@ -160,11 +160,11 @@ table.res tr.r td:first-child{border-left:4px solid var(--red)}
   .lab .bar{width:48px;height:7px}
 }
 @media (max-height:500px){
-  #mini{width:96px;height:96px}
+  #mini{width:115px;height:115px}
   #stats{display:none}
-  #skills{transform:scale(.66);transform-origin:right bottom}
-  #joy{width:116px;height:116px;left:calc(18px + env(safe-area-inset-left,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px))}
-  #knob{width:48px;height:48px;margin:-24px 0 0 -24px}
+  #skills{transform:scale(.86);transform-origin:right bottom}
+  #joy{width:139px;height:139px;left:calc(18px + env(safe-area-inset-left,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px))}
+  #knob{width:58px;height:58px;margin:-29px 0 0 -29px}
   #banner{font-size:30px}
   #hint{display:none}
   #buffs{max-width:44vw}
@@ -178,11 +178,11 @@ table.res tr.r td:first-child{border-left:4px solid var(--red)}
 /* phones: keep the game away from the camera notch and rounded corners */
 body.touch{background:#000}
 body.touch #game{top:max(6px,env(safe-area-inset-top,0px));bottom:max(6px,env(safe-area-inset-bottom,0px));left:max(34px,env(safe-area-inset-left,0px));right:max(34px,env(safe-area-inset-right,0px));border-radius:14px}
-body.touch #mini{width:84px;height:84px}
+body.touch #mini{width:101px;height:101px}
 body.touch #stats{display:none}
-body.touch #skills{transform:scale(.56);transform-origin:right bottom;right:8px;bottom:8px}
-body.touch #joy{width:100px;height:100px;left:12px;bottom:12px}
-body.touch #knob{width:42px;height:42px;margin:-21px 0 0 -21px}
+body.touch #skills{transform:scale(.73);transform-origin:right bottom;right:8px;bottom:8px}
+body.touch #joy{width:120px;height:120px;left:12px;bottom:12px}
+body.touch #knob{width:50px;height:50px;margin:-25px 0 0 -25px}
 body.touch #topright{top:6px;right:6px}
 body.touch #topbtns{top:6px;left:6px;gap:4px}
 body.touch #topbtns button{font-size:15px;padding:2px 7px 3px;border-width:2px}
@@ -211,7 +211,7 @@ body.touch .lab .bar{width:40px;height:6px}
   <div id="hud" hidden>
     <div id="topbtns"><button id="btnPause" type="button" aria-label="Tạm dừng">II</button><button id="btnMute" type="button" aria-label="Tắt tiếng">♪</button><button id="btnBoard" type="button" aria-label="Bảng điểm">≡</button><button id="btnFs" class="fsbtn" type="button" aria-label="Toàn màn hình">⛶</button></div>
     <div id="score"><div class="s b"><small>TRỤ</small><span id="tB">0</span></div><div class="mid" id="timer">6:00</div><div class="s r"><span id="tR">0</span><small>TRỤ</small></div></div>
-    <div id="topright"><canvas id="mini" class="px" width="170" height="170"></canvas><div id="stats" class="px"><span id="clock">06:00</span><span class="tb" id="kB">0</span><span>:</span><span class="tr" id="kR">0</span><span title="Hạ / chết của bạn" id="kd">0/0</span></div></div>
+    <div id="topright"><canvas id="mini" class="px" width="204" height="204"></canvas><div id="stats" class="px"><span id="clock">06:00</span><span class="tb" id="kB">0</span><span>:</span><span class="tr" id="kR">0</span><span title="Hạ / chết của bạn" id="kd">0/0</span></div></div>
     <div id="feed"></div>
     <div id="planeWarn" hidden>Máy bay tiếp tế đang tới!</div>
     <div id="banner"></div>
@@ -242,7 +242,7 @@ body.touch .lab .bar{width:40px;height:6px}
           <li>Chết phải chờ <b>10 giây</b> mới hồi sinh.</li>
           <li>Bắn trụ địch hết máu, trụ <b>đổi sang phe bạn</b>. Trụ không bắn ai.</li>
           <li>Mỗi trụ có một chức năng ghi ngay trên trụ: <b>Tốc bắn +35%, Máu +25% và tự hồi, Tốc chạy +25%, Hồi chiêu nhanh 40%</b>. Đứng trong vòng trụ phe mình để nhận, nhiều trụ thì cộng dồn.</li>
-          <li>Máy bay tiếp tế thỉnh thoảng bay qua, thả <b>thùng đồ</b> có hạn dùng.</li>
+          <li>Máy bay tiếp tế thỉnh thoảng bay qua, thả <b>2 thùng đồ</b> có hạn dùng.</li>
           <li>Chiếm hết trụ là thắng ngay. Hết 6 phút, đội nhiều trụ hơn thắng.</li>
         </ul></div>
         <div><h3>Điều khiển</h3><div class="keys">
@@ -251,7 +251,7 @@ body.touch .lab .bar{width:40px;height:6px}
           <kbd>Chuột trái</kbd><span>Bắn (giữ để bắn liên tục)</span>
           <kbd>Q / Shift</kbd><span>Chiêu 1: Lướt một đoạn dài</span>
           <kbd>E</kbd><span>Chiêu 2: Bắn 2 viên, nhanh hơn 20%</span>
-          <kbd>R / Chuột phải</kbd><span>Chiêu 3: Lựu đạn làm chậm 70%</span>
+          <kbd>R / Chuột phải</kbd><span>Chiêu 3: Lựu đạn làm chậm 70% (không gây sát thương)</span>
           <kbd>Tab</kbd><span>Bảng điểm</span>
         </div></div>
       </div>
@@ -316,13 +316,13 @@ function rnd(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|s
 
 // ---------------- tuning ----------------
 const AUTO_RANGE=15;
-const BASE={hp:100,speed:4.6,fireInt:0.38,bulletSpeed:12,dmg:14,range:19};
+const BASE={hp:100,speed:5.06,fireInt:0.475,bulletSpeed:9.6,dmg:14,range:19};
 const SK={
   dash:{cd:5,dist:9,time:0.2},
   dbl:{cd:6,gap:0.17,mult:1.2,dmg:20},
-  gren:{cd:10,range:17,radius:6.5,slow:0.7,slowTime:3.2,dmg:22}
+  gren:{cd:10,range:17,radius:7.8,slow:0.7,slowTime:3.2,dmg:0}
 };
-const TOWER={hp:800,radius:10,regenDelay:5,regen:18,col:1.8};
+const TOWER={hp:640,radius:13,regenDelay:5,regen:18,col:1.8};
 const BUFF={fire:1.35,hp:1.25,regen:6,speed:1.25,cd:1.4};
 const RESPAWN=10, MATCH=360;
 const DROPS={
@@ -337,8 +337,8 @@ const DIFF={
   hard:{label:'Khó',err:0.05,lead:1,dodge:0.8,turn:12,think:0.7,skill:1.6}
 };
 const TEAM=[
-  {name:'Xanh',c:0x3d8bff,light:0x9cc8ff,css:'#3d8bff',cls:'b'},
-  {name:'Đỏ',c:0xff4d3d,light:0xffb0a3,css:'#ff5a47',cls:'r'}
+  {name:'Xanh',c:0x3d8bff,light:0x9cc8ff,shot:0x00f0ff,css:'#3d8bff',cls:'b'},
+  {name:'Đỏ',c:0xff4d3d,light:0xffb0a3,shot:0xff2bd6,css:'#ff5a47',cls:'r'}
 ];
 const BOTNAMES=['Tèo','Tí','Sún','Bin','Mít','Na','Cốm','Bơ','Su','Kem','Bắp','Đậu','Nấm','Gạo','Ổi','Xoài','Mận','Khoai'];
 
@@ -465,8 +465,9 @@ let S=36, obstacles=[], towers=[], units=[], bullets=[], grenades=[], parts=[], 
 let worldGroup=null, player=null, game=null, settings={n:2,diff:'normal',name:'Bạn',team:0};
 let bulletId=0;
 const shared={
-  bulletGeo:new THREE.BoxGeometry(0.28,0.28,0.55),
-  bigBulletGeo:new THREE.BoxGeometry(0.36,0.36,0.75),
+  bulletGeo:new THREE.BoxGeometry(0.4,0.4,0.72),
+  bigBulletGeo:new THREE.BoxGeometry(0.5,0.5,0.95),
+  bulletEdge:new THREE.MeshBasicMaterial({color:0x000000,side:THREE.BackSide}),
   partGeo:new THREE.BoxGeometry(1,1,1)
 };
 const basicCache={};
@@ -784,7 +785,8 @@ function r2(v){return Math.round(v*100)/100;}
 function num(v,d=0){v=+v;return Number.isFinite(v)?v:d;}
 function spawnBullet(owner,team,ox,oz,yaw,skill){
   const f=fwd(yaw);const speed=BASE.bulletSpeed*(skill?SK.dbl.mult:1);
-  const mesh=new THREE.Mesh(skill?shared.bigBulletGeo:shared.bulletGeo,basic(skill?0xfff07a:TEAM[team].light));
+  const mesh=new THREE.Mesh(skill?shared.bigBulletGeo:shared.bulletGeo,basic(skill?0xfff200:TEAM[team].shot));
+  {const edge=new THREE.Mesh(mesh.geometry,shared.bulletEdge);edge.scale.setScalar(1.35);mesh.add(edge);}
   mesh.position.set(ox,1.35,oz);mesh.rotation.y=yaw;scene.add(mesh);
   bullets.push({id:++bulletId,x:ox,z:oz,dx:f.x,dz:f.z,speed,team,owner,dmg:skill?SK.dbl.dmg:BASE.dmg,life:BASE.range/speed,mesh,skill,trail:0});
   burst(ox,1.35,oz,skill?0xfff07a:0xffffff,3,3,0.12,0.15,0);
@@ -859,9 +861,8 @@ function explode(g){
   if(!isHost())return;
   for(const v of units){
     if(!v.alive||v.team===g.team)continue;
-    if(Math.hypot(v.pos.x-g.tx,v.pos.z-g.tz)<SK.gren.radius){if(v.invulnT<=0)v.slowT=SK.gren.slowTime;damageUnit(v,SK.gren.dmg,g.owner);}
+    if(Math.hypot(v.pos.x-g.tx,v.pos.z-g.tz)<SK.gren.radius){if(v.invulnT<=0)v.slowT=SK.gren.slowTime;}
   }
-  for(const t of towers){if(t.team!==g.team&&Math.hypot(t.x-g.tx,t.z-g.tz)<SK.gren.radius+1)damageTower(t,SK.gren.dmg,g.owner);}
 }
 
 // ---------------- supply plane ----------------
@@ -891,9 +892,7 @@ function launchPlane(){
   const L=S*1.9;
   const start={x:perp.x*off-dir.x*L,z:perp.z*off-dir.z*L};
   const g=makePlane();g.position.set(start.x,16,start.z);g.rotation.y=Math.atan2(dir.x,dir.z);scene.add(g);
-  const k=1+Math.floor(Math.random()*2)+(settings.n>2?1:0);
-  const drops=[];
-  for(let i=0;i<k;i++){drops.push(R(-0.55,0.55)*S);}
+  const drops=[R(-0.55,-0.15)*S,R(0.15,0.55)*S];
   drops.sort((a,b)=>a-b);
   const types=Object.keys(DROPS);
   plane={g,dir,start,dist:0,L:L*2,speed:14,drops:drops.map(s=>({s:s+L,type:pick(types),done:false})),off,perp};
